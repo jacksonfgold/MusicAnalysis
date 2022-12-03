@@ -20,7 +20,8 @@ for song in songs:
 		    c.setopt(c.WRITEDATA, f)
 		    c.perform()
 		    c.close()
-		if i > 2500:
-			break
+		i+=1
+	if i > 5000:
+		break
 
 
