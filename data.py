@@ -3,18 +3,19 @@ import torchaudio
 import warnings
 import numpy as np
 import pickle
+import torch
 
-warnings.filterwarnings(action = 'ignore')
+#warnings.filterwarnings(action = 'ignore')
  
 import gensim
 from gensim.models import Word2Vec
 
-directory = "songs"
+directory = "songs2"
 
 import json
 
-f = open("wasabi/social-tags.json")
-g = open("wasabi/emotion-tags.json")
+f = open("wasabi/social-tags.json", encoding="utf8")
+g = open("wasabi/emotion-tags.json", encoding="utf8")
 
 social = json.load(f)
 emotions = json.load(g)
@@ -43,13 +44,13 @@ def convertWords(words):
 	for word in words:
 		if word in word2vec:
 			vec = word2vec[word]
-			word_vectors.append(vec)
+			word_vectors.append(torch.tensor(vec))
 			word_count+=1;
 		if word_count == 50:
 			break
 
 	while word_count < 50:
-		word_vectors.append(np.zeros(300))
+		word_vectors.append(torch.tensor(np.zeros(300)))
 		word_count += 1
 
 
@@ -59,18 +60,23 @@ def convertWords(words):
 song_tensors = []
 song_labels = []
 
+
 for song in os.listdir(directory):
 
-	try:
-		audio, w = torchaudio.load("songs/" + song, format="mp3")
-	except:
-		continue
+	#try:
+		#audio, w = librosa.load("./songs/" + song)
+	audio, w = torchaudio.load("songs2/" + song)
+
+	print(audio.size())
+	#audio = torch.reshape(audio, (1, audio.size(dim=1)))
+	#except:
+	#	continue
 
 	emot = retrieveEmotionTags(song[:-4])
 
 	soc = retrieveSocialTags(song[:-4])
 
-	if (not emot or not soc):
+	if (not emot or not soc) or (audio.size(dim=1)!=1354752):
 		continue
 
 	tags = convertWords(emot + soc)[:50]

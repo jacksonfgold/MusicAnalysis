@@ -1,7 +1,7 @@
 import pycurl
 import json
 
-f = open("wasabi/song.json")
+f = open("wasabi/song.json",  encoding="utf8")
 
 songs = json.load(f)
 
@@ -21,7 +21,7 @@ for song in songs:
 		    c.perform()
 		    c.close()
 		i+=1
-	if i > 5000:
+	if i > 25000:
 		break
 
 

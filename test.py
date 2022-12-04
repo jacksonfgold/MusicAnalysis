@@ -1,9 +1,11 @@
-import gensim
+import os
+from pydub import AudioSegment
 
-word2vec = gensim.models.KeyedVectors.load_word2vec_format('weights/GoogleNews-vectors-negative300.bin', binary=True)  
-
-
-words = ['beautiful', 'ugly']
-
-print(model['beautiful'])
-
+for song in os.listdir("songs"):
+	input_file = "songs/" + song 
+	output_file = "songs2/" + song[:-4] + ".wav"
+	try:
+		sound = AudioSegment.from_mp3(input_file)
+	except:
+		continue
+	sound.export(output_file, format="wav")
