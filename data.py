@@ -12,6 +12,8 @@ from gensim.models import Word2Vec
 
 directory = "songs2"
 
+max_words = 20
+
 import json
 
 f = open("wasabi/social-tags.json", encoding="utf8")
@@ -46,10 +48,10 @@ def convertWords(words):
 			vec = word2vec[word]
 			word_vectors.append(torch.tensor(vec))
 			word_count+=1;
-		if word_count == 50:
+		if word_count == max_words:
 			break
 
-	while word_count < 50:
+	while word_count < max_words:
 		word_vectors.append(torch.tensor(np.zeros(300)))
 		word_count += 1
 
@@ -61,16 +63,9 @@ song_tensors = []
 song_labels = []
 
 
-for song in os.listdir(directory):
+for song in os.listdir(directory)[:4000]:
 
-	#try:
-		#audio, w = librosa.load("./songs/" + song)
 	audio, w = torchaudio.load("songs2/" + song)
-
-	print(audio.size())
-	#audio = torch.reshape(audio, (1, audio.size(dim=1)))
-	#except:
-	#	continue
 
 	emot = retrieveEmotionTags(song[:-4])
 
@@ -79,7 +74,7 @@ for song in os.listdir(directory):
 	if (not emot or not soc) or (audio.size(dim=1)!=1354752):
 		continue
 
-	tags = convertWords(emot + soc)[:50]
+	tags = convertWords(emot + soc)[:max_words]
 
 	song_labels.append(tags)
 	song_tensors.append(audio)

@@ -1,7 +1,7 @@
 import pycurl
 import json
 
-f = open("wasabi/song.json",  encoding="utf8")
+f = open("wasabi/song.json", encoding="utf-8")
 
 songs = json.load(f)
 
@@ -15,13 +15,16 @@ for song in songs:
 		print(preview, song["has_emotion_tags"])
 		file_name = "songs/" + song["_id"]["$oid"] + ".mp3"
 		with open(file_name, 'wb') as f:
-		    c = pycurl.Curl()
-		    c.setopt(c.URL, preview)
-		    c.setopt(c.WRITEDATA, f)
-		    c.perform()
-		    c.close()
+			try:
+			    c = pycurl.Curl()
+			    c.setopt(c.URL, preview)
+			    c.setopt(c.WRITEDATA, f)
+			    c.perform()
+			    c.close()
+			except:
+				continue
 		i+=1
-	if i > 25000:
+	if i > 4000:
 		break
 
 
