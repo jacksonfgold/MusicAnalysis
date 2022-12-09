@@ -14,7 +14,7 @@ You can run getSongInfo.py with a specfic song_id to see the emotion or social t
 
 Download the [Google News Word2Vec weights](https://drive.google.com/file/d/0B7XkCwpI5KDYNlNUTTlSS21pQmM/edit?resourcekey=0-wjGZdNAUop6WykTtMip30g) and put them in the weights folder.
 
-If you want to use pre-trained version of the model, download weights [here](https://drive.google.com/file/d/1FCm4H0NcvD6mo2sA5DndPyBl9h0atdHP/view?usp=sharing)
+If you want to use pre-trained version of the model, download weights [here](https://drive.google.com/file/d/1FCm4H0NcvD6mo2sA5DndPyBl9h0atdHP/view?usp=sharing) and place inside "weights" folder
 
 ## Training
 
